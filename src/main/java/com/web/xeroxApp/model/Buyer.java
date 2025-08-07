@@ -9,13 +9,23 @@ public class Buyer {
     @Id
     private int rollNo;
     private String name;
+    private String username;
 
-    public Buyer(int rollNo, String name) {
+    public Buyer(int rollNo, String name,String username) {
         this.rollNo = rollNo;
         this.name = name;
+        this.username = username;
     }
 
     public Buyer() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getRollNo() {

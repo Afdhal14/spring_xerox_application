@@ -2,8 +2,12 @@ package com.web.xeroxApp.controller;
 
 import com.web.xeroxApp.model.Users;
 import com.web.xeroxApp.service.BuyerService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static com.web.xeroxApp.model.Role.BUYER;
 
@@ -22,8 +26,27 @@ public class BuyerController {
     }
 
     @GetMapping("/login")
-    public String login(@RequestBody Users user)
+    public String login(@RequestParam String username,@RequestParam String password)
     {
+        Users user = new Users(username,password,BUYER);
         return BService.verify(user);
+    }
+
+    @GetMapping("/placeOrder")
+    public int order(@RequestParam int shopId,@RequestParam MultipartFile file,
+                        @RequestParam int copies,@RequestParam boolean colour,
+                        @RequestParam boolean frontAndBack,@RequestParam boolean binding)
+    {
+        byte[] pdfData;
+        try{
+            pdfData = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String username = BService.extractToken();
+        int rollNo = BService.findRollNo(username);
+        int noOfPages = BService.calculatePages(file);
+        return BService.order(shopId,rollNo,pdfData,copies,colour,
+                frontAndBack,binding,noOfPages);
     }
 }

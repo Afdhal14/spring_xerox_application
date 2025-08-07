@@ -6,6 +6,9 @@ import com.web.xeroxApp.model.Role;
 import com.web.xeroxApp.model.Seller;
 import com.web.xeroxApp.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,12 @@ public class SellerService {
     @Autowired
     private UsersRepo URepo;
 
+    @Autowired
+    private JWTService JService;
+
+    @Autowired
+    AuthenticationManager authManager;
+
     public String register(String shopName, String shopOwner,
                            LocalTime openingTime, LocalTime closingTime, String phoneNo,
                            boolean isClosed,String username ,String password , Role role) {
@@ -32,5 +41,31 @@ public class SellerService {
         SRepo.save(seller);
         URepo.save(users);
         return "Seller Registered Successfully";
+    }
+
+    public String verify(Users user)
+    {
+        try
+        {
+            Authentication authentication = authManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            if (authentication.isAuthenticated())
+            {
+                Users dbUser = URepo.findByUsername(user.getUsername());
+
+                if (dbUser.getRole() != user.getRole())
+                    return "Access Denied.";
+
+                return JService.generateToken(dbUser);
+            }
+                else
+                {
+                    return "Invalid username or password";
+                }
+        }
+        catch(Exception e)
+        {
+            return "Invalid username or password";
+        }
     }
 }

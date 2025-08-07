@@ -18,6 +18,30 @@ public class OrderList {
     private boolean binding;
     private boolean payed;
     private boolean printed;
+    private int cost;
+
+    public OrderList(int shopId, int rollNo,
+                     byte[] pdfData, int copies, boolean colour,
+                     boolean frontAndBack, boolean binding, boolean payed, boolean printed , int cost) {
+        this.shopId = shopId;
+        this.rollNo = rollNo;
+        this.pdfData = pdfData;
+        this.copies = copies;
+        this.colour = colour;
+        this.frontAndBack = frontAndBack;
+        this.binding = binding;
+        this.payed = payed;
+        this.printed = printed;
+        this.cost = cost;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     public int getOrderId() {
         return orderId;

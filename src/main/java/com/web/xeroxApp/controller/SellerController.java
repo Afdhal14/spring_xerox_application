@@ -1,6 +1,7 @@
 package com.web.xeroxApp.controller;
 
 import com.web.xeroxApp.model.Seller;
+import com.web.xeroxApp.model.Users;
 import com.web.xeroxApp.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,5 +26,12 @@ public class SellerController {
         return SService.register(shopName,shopOwner
                 ,openingTime,closingTime,phoneNo
                 ,isClosed,username,password,SELLER);
+    }
+
+    @GetMapping("/login")
+    public String login(@RequestParam String username,@RequestParam String password)
+    {
+        Users user = new Users(username,password,SELLER);
+        return SService.verify(user);
     }
 }
