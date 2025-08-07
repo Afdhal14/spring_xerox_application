@@ -19,6 +19,9 @@ public class Buyer {
         this.password = password;
     }
 
+    public Buyer() {
+    }
+
     public int getRollNo() {
         return rollNo;
     }

@@ -13,10 +13,7 @@ public class SellerService {
     @Autowired
     private SellerRepo SRepo;
 
-    public String register(int shopId, String shopName, String shopOwner,
-                           LocalTime openingTime, LocalTime closingTime, String phoneNo,
-                           boolean isClosed, String userName, String password) {
-        Seller seller = new Seller(shopId,shopName,shopOwner,openingTime,closingTime,phoneNo,isClosed,userName,password);
+    public String register(Seller seller) {
         SRepo.save(seller);
         return "Seller Registered Successfully";
     }

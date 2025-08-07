@@ -38,6 +38,9 @@ public class Seller {
         this.password = password;
     }
 
+    public Seller() {
+    }
+
     public String getUserName() {
         return userName;
     }

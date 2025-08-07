@@ -1,11 +1,9 @@
 package com.web.xeroxApp.controller;
 
+import com.web.xeroxApp.model.Buyer;
 import com.web.xeroxApp.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/buyer")
@@ -15,9 +13,8 @@ public class BuyerController {
     private BuyerService BService;
 
     @PostMapping("/register")
-    public String register(@RequestParam int rollNo,@RequestParam String name,
-                           @RequestParam String userName,@RequestParam String password)
+    public String register(@RequestBody Buyer buyer)
     {
-        return BService.register(rollNo,name,userName,password);
+        return BService.register(buyer);
     }
 }

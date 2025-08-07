@@ -11,8 +11,8 @@ public class BuyerService {
     @Autowired
     private BuyerRepo BRepo;
 
-    public String register(int rollNo, String name, String userName, String password) {
-        Buyer buyer = new Buyer(rollNo,name,userName,password);
+    public String register(Buyer buyer)
+    {
         BRepo.save(buyer);
         return "Buyer Registered Successfully";
     }
