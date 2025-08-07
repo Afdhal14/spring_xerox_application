@@ -19,42 +19,21 @@ public class Seller {
     private LocalTime closingTime;
     private String phoneNo;
     private boolean isClosed;
-    private String userName;
-    private String password;
 
 
-    public Seller(int shopId, String shopName, String shopOwner,
+    public Seller(String shopName, String shopOwner,
                   LocalTime openingTime, LocalTime closingTime, String phoneNo,
-                  boolean isClosed, String userName, String password)
+                  boolean isClosed)
     {
-        this.shopId = shopId;
         this.shopName = shopName;
         this.shopOwner = shopOwner;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
         this.phoneNo = phoneNo;
         this.isClosed = isClosed;
-        this.userName = userName;
-        this.password = password;
     }
 
     public Seller() {
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getShopId() {

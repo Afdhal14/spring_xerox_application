@@ -9,14 +9,10 @@ public class Buyer {
     @Id
     private int rollNo;
     private String name;
-    private String userName;
-    private String password;
 
-    public Buyer(int rollNo, String name, String userName, String password) {
+    public Buyer(int rollNo, String name) {
         this.rollNo = rollNo;
         this.name = name;
-        this.userName = userName;
-        this.password = password;
     }
 
     public Buyer() {
@@ -38,19 +34,4 @@ public class Buyer {
         this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
