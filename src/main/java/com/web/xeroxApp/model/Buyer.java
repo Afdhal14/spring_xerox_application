@@ -12,7 +12,12 @@ public class Buyer {
     private String userName;
     private String password;
 
-
+    public Buyer(int rollNo, String name, String userName, String password) {
+        this.rollNo = rollNo;
+        this.name = name;
+        this.userName = userName;
+        this.password = password;
+    }
 
     public int getRollNo() {
         return rollNo;
