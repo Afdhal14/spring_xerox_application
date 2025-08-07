@@ -1,7 +1,6 @@
 package com.web.xeroxApp.controller;
 
-import com.web.xeroxApp.model.Buyer;
-import com.web.xeroxApp.model.Role;
+import com.web.xeroxApp.model.Users;
 import com.web.xeroxApp.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +19,11 @@ public class BuyerController {
                            @RequestParam String username,@RequestParam String password)
     {
         return BService.register(rollNo,name,username,password, BUYER);
+    }
+
+    @GetMapping("/login")
+    public String login(@RequestBody Users user)
+    {
+        return BService.verify(user);
     }
 }
