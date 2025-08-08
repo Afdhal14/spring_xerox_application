@@ -19,11 +19,12 @@ public class Seller {
     private LocalTime closingTime;
     private String phoneNo;
     private boolean isClosed;
+    private String username;
 
 
     public Seller(String shopName, String shopOwner,
                   LocalTime openingTime, LocalTime closingTime, String phoneNo,
-                  boolean isClosed)
+                  boolean isClosed,String username)
     {
         this.shopName = shopName;
         this.shopOwner = shopOwner;
@@ -31,9 +32,18 @@ public class Seller {
         this.closingTime = closingTime;
         this.phoneNo = phoneNo;
         this.isClosed = isClosed;
+        this.username = username;
     }
 
     public Seller() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getShopId() {

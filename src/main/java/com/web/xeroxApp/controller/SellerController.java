@@ -1,5 +1,6 @@
 package com.web.xeroxApp.controller;
 
+import com.web.xeroxApp.model.OrderList;
 import com.web.xeroxApp.model.Seller;
 import com.web.xeroxApp.model.Users;
 import com.web.xeroxApp.service.SellerService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import static com.web.xeroxApp.model.Role.SELLER;
 
@@ -34,4 +36,17 @@ public class SellerController {
         Users user = new Users(username,password,SELLER);
         return SService.verify(user);
     }
+
+    @GetMapping("/orderList")
+    public List<OrderList> orderList()
+    {
+        return SService.orderList();
+    }
+
+    @GetMapping("/takePrint")
+    public String takePrint(@RequestParam int orderId)
+    {
+        return SService.takePrint(orderId);
+    }
+
 }

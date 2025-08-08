@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class BuyerService {
@@ -120,5 +121,9 @@ public class BuyerService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<OrderList> orderList(int rollNo) {
+        return ORepo.findByRollNo(rollNo);
     }
 }

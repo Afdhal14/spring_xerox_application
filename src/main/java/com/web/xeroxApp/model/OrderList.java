@@ -20,6 +20,9 @@ public class OrderList {
     private boolean printed;
     private int cost;
 
+    public OrderList() {
+    }
+
     public OrderList(int shopId, int rollNo,
                      byte[] pdfData, int copies, boolean colour,
                      boolean frontAndBack, boolean binding, boolean payed, boolean printed , int cost) {
