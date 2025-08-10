@@ -2,14 +2,15 @@ package com.web.xeroxApp.service;
 
 import com.web.xeroxApp.Repository.BuyerRepo;
 import com.web.xeroxApp.Repository.OrderListRepo;
+import com.web.xeroxApp.Repository.SellerRepo;
 import com.web.xeroxApp.Repository.UsersRepo;
-import com.web.xeroxApp.model.Buyer;
-import com.web.xeroxApp.model.OrderList;
-import com.web.xeroxApp.model.Role;
-import com.web.xeroxApp.model.Users;
+import com.web.xeroxApp.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +29,9 @@ public class BuyerService {
 
     @Autowired
     private UsersRepo URepo;
+
+    @Autowired
+    private SellerRepo SRepo;
 
     @Autowired
     private OrderListRepo ORepo;
@@ -97,20 +101,22 @@ public class BuyerService {
         return buyer.getRollNo();
     }
 
-    public int order(int shopId, int rollNo, byte[] pdfData, int copies,
+    public String order(int shopId, int rollNo, byte[] pdfData, int copies,
                         boolean colour, boolean frontAndBack, boolean binding,int noOfPages) {
-        int cost = calculateCost(noOfPages,copies,colour,frontAndBack,binding);
+        Seller seller = SRepo.findByShopId(shopId);
+        int cost = calculateCost(seller,noOfPages,copies,colour,frontAndBack,binding);
         OrderList orderList = new OrderList(shopId,rollNo,pdfData,copies,colour,frontAndBack,binding,false,false,cost);
         ORepo.save(orderList);
-        return cost;
+        return String.valueOf(cost);
     }
 
-    private int calculateCost(int noOfPages, int copies, boolean colour, boolean frontAndBack, boolean binding) {
+    private int calculateCost(Seller seller,int noOfPages, int copies, boolean colour, boolean frontAndBack, boolean binding) {
 
         int cost = noOfPages*copies;
-        if(colour) cost *= 10;
-        if(!frontAndBack) cost *= 2;
-        if(binding) cost += 50;
+        if(colour) cost *= seller.getColourCost();
+        if(frontAndBack) cost *= seller.getFrontAndBackCost();
+        else cost *= seller.getSingleSideCost();
+        if(binding) cost += seller.getBindingCost();
         return cost;
     }
 
@@ -125,5 +131,10 @@ public class BuyerService {
 
     public List<OrderList> orderList(int rollNo) {
         return ORepo.findByRollNo(rollNo);
+    }
+
+    public boolean checkShopClosed(int shopId) {
+        Seller seller = SRepo.findByShopId(shopId);
+        return seller.isClosed();
     }
 }

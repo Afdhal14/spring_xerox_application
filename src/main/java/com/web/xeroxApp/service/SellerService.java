@@ -9,6 +9,9 @@ import com.web.xeroxApp.model.Seller;
 import com.web.xeroxApp.model.Users;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -79,16 +82,21 @@ public class SellerService {
         }
     }
 
-    public List<OrderList> orderList() {
+    public String extractToken() {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
-
         if(authHeader != null && authHeader.startsWith("Bearer "))
         {
             token = authHeader.substring(7);
             username = JService.extractUsername(token);
         }
+        return username;
+    }
+
+    public List<OrderList> orderList() {
+
+        String username = extractToken();
 
         Seller seller = SRepo.findByUsername(username);
         int shopId = seller.getShopId();
@@ -101,5 +109,43 @@ public class SellerService {
         orderList.setPrinted(true);
         ORepo.save(orderList);
         return "Print taken";
+    }
+
+    public ResponseEntity<byte[]> downloadPDF(int orderId) {
+        OrderList orderList = ORepo.findByOrderId(orderId);
+
+        if(orderList == null || orderList.getPdfData() == null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename = order_"+orderId+ ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(orderList.getPdfData());
+    }
+
+    public String changeCost(int colourCost, int singleSideCode, int frontAndBackCost, int bindingCost) {
+        String username = extractToken();
+        Seller seller = SRepo.findByUsername(username);
+        seller.setColourCost(colourCost);
+        seller.setSingleSideCost(singleSideCode);
+        seller.setFrontAndBackCost(frontAndBackCost);
+        seller.setBindingCost(bindingCost);
+        SRepo.save(seller);
+        return "success";
+    }
+
+    public String closeShop() {
+        String username = extractToken();
+        Seller seller = SRepo.findByUsername(username);
+        seller.setClosed(true);
+        return "Shop closed";
+    }
+
+    public String openShop() {
+        String username = extractToken();
+        Seller seller = SRepo.findByUsername(username);
+        seller.setClosed(false);
+        return "Shop opened";
     }
 }

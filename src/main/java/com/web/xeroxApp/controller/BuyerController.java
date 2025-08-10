@@ -5,6 +5,7 @@ import com.web.xeroxApp.model.Users;
 import com.web.xeroxApp.service.BuyerService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,21 +36,28 @@ public class BuyerController {
     }
 
     @GetMapping("/placeOrder")
-    public int order(@RequestParam int shopId,@RequestParam MultipartFile file,
+    public String order(@RequestParam int shopId,@RequestParam MultipartFile file,
                         @RequestParam int copies,@RequestParam boolean colour,
                         @RequestParam boolean frontAndBack,@RequestParam boolean binding)
     {
-        byte[] pdfData;
-        try{
-            pdfData = file.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(BService.checkShopClosed(shopId))
+        {
+            return "Shop Currently closed";
         }
-        String username = BService.extractToken();
-        int rollNo = BService.findRollNo(username);
-        int noOfPages = BService.calculatePages(file);
-        return BService.order(shopId,rollNo,pdfData,copies,colour,
-                frontAndBack,binding,noOfPages);
+        else
+        {
+            byte[] pdfData;
+            try {
+                pdfData = file.getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            String username = BService.extractToken();
+            int rollNo = BService.findRollNo(username);
+            int noOfPages = BService.calculatePages(file);
+            return BService.order(shopId, rollNo, pdfData, copies, colour,
+                    frontAndBack, binding, noOfPages);
+        }
     }
 
     @GetMapping("/orderList")

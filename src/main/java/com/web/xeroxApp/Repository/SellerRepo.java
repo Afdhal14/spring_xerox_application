@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface SellerRepo extends JpaRepository<Seller,Integer> {
 
     public Seller findByUsername(String username);
+
+    public Seller findByShopId(int shopId);
 }

@@ -20,6 +20,10 @@ public class Seller {
     private String phoneNo;
     private boolean isClosed;
     private String username;
+    private int colourCost;
+    private int singleSideCost;
+    private int frontAndBackCost;
+    private int bindingCost;
 
 
     public Seller(String shopName, String shopOwner,
@@ -33,6 +37,10 @@ public class Seller {
         this.phoneNo = phoneNo;
         this.isClosed = isClosed;
         this.username = username;
+        this.colourCost = 10;
+        this.singleSideCost = 1;
+        this.frontAndBackCost = 2;
+        this.bindingCost = 50;
     }
 
     public Seller() {
@@ -100,5 +108,37 @@ public class Seller {
 
     public void setClosed(boolean closed) {
         isClosed = closed;
+    }
+
+    public int getColourCost() {
+        return colourCost;
+    }
+
+    public void setColourCost(int colourCost) {
+        this.colourCost = colourCost;
+    }
+
+    public int getSingleSideCost() {
+        return singleSideCost;
+    }
+
+    public void setSingleSideCost(int singleSideCost) {
+        this.singleSideCost = singleSideCost;
+    }
+
+    public int getFrontAndBackCost() {
+        return frontAndBackCost;
+    }
+
+    public void setFrontAndBackCost(int frontAndBackCost) {
+        this.frontAndBackCost = frontAndBackCost;
+    }
+
+    public int getBindingCost() {
+        return bindingCost;
+    }
+
+    public void setBindingCost(int bindingCost) {
+        this.bindingCost = bindingCost;
     }
 }

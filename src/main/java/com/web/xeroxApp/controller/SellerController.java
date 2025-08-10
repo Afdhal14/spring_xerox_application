@@ -1,10 +1,10 @@
 package com.web.xeroxApp.controller;
 
 import com.web.xeroxApp.model.OrderList;
-import com.web.xeroxApp.model.Seller;
 import com.web.xeroxApp.model.Users;
 import com.web.xeroxApp.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
@@ -49,4 +49,28 @@ public class SellerController {
         return SService.takePrint(orderId);
     }
 
+    @GetMapping("/download")
+    public ResponseEntity<byte[]> downloadPDF(@RequestParam int orderId)
+    {
+        return SService.downloadPDF(orderId);
+    }
+
+    @GetMapping("/changeCost")
+    public String changeCost(@RequestParam int colourCost,@RequestParam int singleSideCode,
+                             @RequestParam int frontAndBackCost,@RequestParam int bindingCost)
+    {
+        return SService.changeCost(colourCost,singleSideCode,frontAndBackCost,bindingCost);
+    }
+
+    @GetMapping("/close")
+    public String closeShop()
+    {
+        return SService.closeShop();
+    }
+
+    @GetMapping("/open")
+    public String openShop()
+    {
+        return SService.openShop();
+    }
 }
