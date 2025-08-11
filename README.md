@@ -40,3 +40,37 @@ PrintHub is a web-based application designed to streamline and digitize the prin
    ```bash
    git clone https://github.com/Afdhal14/spring_xerox_application.git
    cd spring_xerox_application
+   
+3. **Configure the database**
+
+- Create a MySQL database (e.g., printhub_db)
+- Update src/main/resources/application.properties with your MySQL credentials and database details.
+
+3. **Build the project**
+   ```bash
+   mvn clean install
+   ```
+
+4. **Run the application**
+   ```bash
+   mvn spring-boot:run
+   ```
+
+5. **Access the application**
+- Open your browser and navigate to http://localhost:8080
+
+## Contributing
+**Contributions are welcome! To contribute:**
+
+- Fork the repository
+
+- Create a new branch (git checkout -b feature/your-feature-name)
+
+- Commit your changes (git commit -m 'Add some feature')
+
+- Push to the branch (git push origin feature/your-feature-name)
+
+- Open a pull request
+
+## License
+This project is licensed under the MIT License.
